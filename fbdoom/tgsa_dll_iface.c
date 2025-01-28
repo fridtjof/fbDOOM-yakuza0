@@ -83,7 +83,7 @@ const char *self_name = "fbdoom";
 const char *args[] = {
     "fbdoom",
     "-iwad",
-    "F:\\\\doom.wad"
+    "doom.wad"
 };
 
 TGSAAPI char TGSACALL ArcadeTestDLL_InitRom(
