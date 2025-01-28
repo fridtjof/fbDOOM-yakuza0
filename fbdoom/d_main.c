@@ -403,6 +403,22 @@ boolean D_GrabMouseCallback(void)
     return (gamestate == GS_LEVEL) && !demoplayback && !advancedemo;
 }
 
+void D_DoomLoop_once(void)
+{
+    // frame syncronous IO operations
+    I_StartFrame ();
+
+    TryRunTics (); // will run at least one tic
+
+    S_UpdateSounds (players[consoleplayer].mo);// move positional sounds
+
+    // Update display, next frame, with current state.
+    if (screenvisible)
+    {
+        D_Display ();
+    }
+}
+
 //
 //  D_DoomLoop
 //
@@ -440,21 +456,7 @@ void D_DoomLoop (void)
         wipegamestate = gamestate;
     }
 
-    while (1)
-    {
-		// frame syncronous IO operations
-		I_StartFrame ();
-
-		TryRunTics (); // will run at least one tic
-
-		S_UpdateSounds (players[consoleplayer].mo);// move positional sounds
-
-		// Update display, next frame, with current state.
-		if (screenvisible)
-		{
-			D_Display ();
-		}
-    }
+    D_DoomLoop_once();
 }
 
 
