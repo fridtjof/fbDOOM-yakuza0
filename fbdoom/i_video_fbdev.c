@@ -44,11 +44,23 @@ rcsid[] = "$Id: i_x.c,v 1.6 1997/02/03 22:45:10 b1 Exp $";
 #include <stdarg.h>
 #include <sys/time.h>
 #include <sys/types.h>
-#include <sys/socket.h>
-#include <linux/fb.h>
-#include <sys/ioctl.h>
 
-//#define CMAP256
+
+struct col
+{
+    int length;
+    int offset;
+};
+struct fb_var_screeninfo
+{
+    int xres, yres;
+    int xres_virtual, yres_virtual;
+
+    int bits_per_pixel;
+    int grayscale;
+
+    struct col red, green, blue, transp;
+};
 
 struct fb_var_screeninfo fb = {};
 int fb_scaling = 1;
@@ -68,8 +80,7 @@ static struct color colors[256];
 byte *I_VideoBuffer = NULL;
 byte *I_VideoBuffer_FB = NULL;
 
-/* framebuffer file descriptor */
-int fd_fb = 0;
+int I_VideoBuffer_FB_sz;
 
 int	X_width;
 int X_height;
@@ -162,18 +173,21 @@ void I_InitGraphics (void)
 {
     int i;
 
-    /* Open fbdev file descriptor */
-    fd_fb = open("/dev/fb0", O_RDWR);
-    if (fd_fb < 0)
-    {
-        printf("Could not open /dev/fb0");
-        exit(-1);
-    }
+    fb.xres = fb.xres_virtual = 320;
+    fb.yres = fb.yres_virtual = 240;
+    fb.bits_per_pixel = 24; //R8G8B8
+    fb.red.length = 8;
+    fb.red.offset = 0;
+    fb.green.length = 8;
+    fb.green.offset = 8;
+    fb.blue.length = 8;
+    fb.blue.offset = 16;
 
-    /* fetch framebuffer info */
-    ioctl(fd_fb, FBIOGET_VSCREENINFO, &fb);
-    /* change params if needed */
-    //ioctl(fd_fb, FBIOPUT_VSCREENINFO, &fb);
+    //unused
+    fb.transp.length = 0;
+    fb.transp.offset = 0;
+    fb.grayscale = 0;
+
     printf("I_InitGraphics: framebuffer: x_res: %d, y_res: %d, x_virtual: %d, y_virtual: %d, bpp: %d, grayscale: %d\n",
             fb.xres, fb.yres, fb.xres_virtual, fb.yres_virtual, fb.bits_per_pixel, fb.grayscale);
 
@@ -198,7 +212,8 @@ void I_InitGraphics (void)
 
     /* Allocate screen to draw to */
 	I_VideoBuffer = (byte*)Z_Malloc (SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);  // For DOOM to draw on
-	I_VideoBuffer_FB = (byte*)malloc(fb.xres * fb.yres * (fb.bits_per_pixel/8));     // For a single write() syscall to fbdev
+    I_VideoBuffer_FB_sz = fb.xres * fb.yres * (fb.bits_per_pixel/8);
+	I_VideoBuffer_FB = (byte*)malloc(I_VideoBuffer_FB_sz);     // For a single write() syscall to fbdev
 
 	screenvisible = true;
 
@@ -387,7 +402,8 @@ __attribute__ ((weak)) void I_GetEvent (void)
 //	}
 }
 
-__attribute__ ((weak)) void I_StartTic (void)
+//__attribute__ ((weak))
+void I_StartTic (void)
 {
 	I_GetEvent();
 }
@@ -441,9 +457,9 @@ void I_FinishUpdate (void)
         line_in += SCREENWIDTH;
     }
 
-    /* Start drawing from y-offset */
-    lseek(fd_fb, y_offset * fb.xres, SEEK_SET);
-    write(fd_fb, I_VideoBuffer_FB, (SCREENHEIGHT * fb_scaling * (fb.bits_per_pixel/8)) * fb.xres); /* draw only portion used by doom + x-offsets */
+    ///* Start drawing from y-offset */
+    //lseek(fd_fb, y_offset * fb.xres, SEEK_SET);
+    //write(fd_fb, I_VideoBuffer_FB, (SCREENHEIGHT * fb_scaling * (fb.bits_per_pixel/8)) * fb.xres); /* draw only portion used by doom + x-offsets */
 }
 
 //
