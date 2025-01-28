@@ -173,15 +173,16 @@ void I_InitGraphics (void)
 {
     int i;
 
+    // libtgsa is BGR, 320x240
     fb.xres = fb.xres_virtual = 320;
     fb.yres = fb.yres_virtual = 240;
     fb.bits_per_pixel = 24; //R8G8B8
     fb.red.length = 8;
-    fb.red.offset = 0;
+    fb.red.offset = 16;
     fb.green.length = 8;
     fb.green.offset = 8;
     fb.blue.length = 8;
-    fb.blue.offset = 16;
+    fb.blue.offset = 0;
 
     //unused
     fb.transp.length = 0;
