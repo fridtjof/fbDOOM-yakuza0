@@ -435,6 +435,7 @@ void I_FinishUpdate (void)
     /* DRAW SCREEN */
     line_in  = (unsigned char *) I_VideoBuffer;
     line_out = (unsigned char *) I_VideoBuffer_FB;
+    line_out += y_offset * fb.xres;
 
     y = SCREENHEIGHT;
 
