@@ -61,8 +61,8 @@ static const char y0_to_doom[] =
     /* 0x07 */ 0, // LEFT UP
     /* 0x08 */ KEY_FIRE, //
     /* 0x09 */ KEY_USE,
-    /* 0x0a */ KEY_RSHIFT,
-    /* 0x0b */ KEY_RALT,
+    /* 0x0a */ KEY_ESCAPE,
+    /* 0x0b */ KEY_RSHIFT,
     /* 0x0c */ 0, // COIN
     /* 0x0d */ 0, // START
 };
