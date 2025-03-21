@@ -17,13 +17,16 @@ jobs:
         with:
           msystem: UCRT64
           install: make mingw-w64-ucrt-x86_64-gcc
-      - uses: actions/checkout@v4
 
+      - uses: actions/checkout@v4
       - name: Build
         run: make PLATFORM=windows NOSDL=1 SHARED=1
         working-directory: fbdoom
 
+      - name: rename DLL
+        run: cp fbdoom/fbdoom.dll libtgsa.dll
+
       - uses: actions/upload-artifact@v4
         with:
           name: dll
-          path: fbdoom/fbdoom.dll
+          path: libtgsa.dll
