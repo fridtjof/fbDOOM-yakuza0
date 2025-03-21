@@ -1131,6 +1131,8 @@ int     quitsounds2[8] =
 
 void M_QuitResponse(int key)
 {
+	// we don't want to actually quit, this would immediately take down Yakuza with us :P
+	return;
     if (key != key_menu_confirm)
 	return;
     if (!netgame)
