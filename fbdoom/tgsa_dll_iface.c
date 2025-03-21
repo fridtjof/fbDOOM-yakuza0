@@ -99,7 +99,7 @@ TGSAAPI char TGSACALL ArcadeTestDLL_InitRom(
 
 
     myargc = ALEN(args);
-    myargv = args;
+    myargv = (char **) args;
     extern void D_DoomMain(void);
     D_DoomMain();
 
