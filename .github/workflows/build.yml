@@ -6,13 +6,12 @@ on:
   pull_request:
     branches: [ "master", "tgsa" ]
 
-defaults:
-  run:
-    shell: msys2 {0}
 jobs:
   build:
     runs-on: windows-latest
-
+    defaults:
+      run:
+        shell: msys2 {0}
     steps:
       - uses: msys2/setup-msys2@v2
         with:
