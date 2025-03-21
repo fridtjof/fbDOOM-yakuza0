@@ -166,3 +166,12 @@ TGSAAPI char TGSACALL ArcadeTestDLL_Update(
 
     return 1;
 }
+
+#define WIN32_LEAN_AND_MEAN 1
+#include <Windows.h>
+
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved) {
+    if ( fdwReason == DLL_PROCESS_ATTACH )
+        DisableThreadLibraryCalls(hinstDLL);
+    return TRUE;
+}
