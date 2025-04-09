@@ -59,10 +59,10 @@ static const char y0_to_doom[] =
     /* 0x05 */ 0, // DOWN L
     /* 0x06 */ KEY_LEFTARROW, // LEFT
     /* 0x07 */ 0, // LEFT UP
-    /* 0x08 */ KEY_FIRE, // CIRCLE, sharrier
-    /* 0x09 */ KEY_USE, // CROSS, sharrier
-    /* 0x0a */ KEY_ESCAPE,
-    /* 0x0b */ KEY_RSHIFT,
+    /* 0x08 */ KEY_FIRE, // CIRCLE/R2, sharrier outrun fz shangon(R2 only??)
+    /* 0x09 */ KEY_USE, // CROSS/L2, sharrier outrun fz shangon(L2 only??)
+    /* 0x0a */ KEY_ESCAPE, // SQUARE, outrun, shangon - sharrier, fz unmapped
+    /* 0x0b */ KEY_ESCAPE, // SQUARE, sharrier - outrun, shangon, fz unmapped
     /* 0x0c */ 0, // COIN
     /* 0x0d */ 0, // START
 };
