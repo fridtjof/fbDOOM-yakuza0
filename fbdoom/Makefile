@@ -22,7 +22,7 @@ OBJS+=$(OBJDIR)/i_input_tty.o
 OBJS+=$(OBJDIR)/tgsa_dll_iface.o
 
 CC=$(CROSS_COMPILE)gcc  # gcc or g++
-CFLAGS+=-ggdb3 -Os
+CFLAGS+=-ggdb3 -Os -std=c99
 LDFLAGS+=-Wl,--gc-sections
 
 ifeq ($(PLATFORM),windows)
